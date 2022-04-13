@@ -11,7 +11,7 @@ inmemory:
 		docker-compose --profile inmemory  up --build
 
 test:
-		go test ./createlink... ./handler
+		go test ./createlink ./handler
 
 clean:
 		go clean
