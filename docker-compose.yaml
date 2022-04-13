@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    profiles:
+      - psql
+    environment:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  inmem_go:
+      container_name: go_inmemory
+      environment:
+        - STORAGE=INMEMORY
+      profiles:
+        - inmemory
+      build:
+        context: .
+      ports:
+        - "8000:8000"
+
+
+  go:
+    container_name: go
+    environment:
+     - POSTGRES_URL=postgres://user:mypassword@postgres:5432/db
+     - STORAGE=PSQL
+    profiles: [psql]
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+volumes:
+  dbdata:
