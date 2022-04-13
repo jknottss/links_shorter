@@ -29,8 +29,8 @@ func OpenConnection() (conf Connection) {
 	}
 	conn, OpenErr := sqlx.Connect("pgx", config)
 	if OpenErr != nil {
-		log.Println("database not ready yet, wait 10 seconds")
-		t := time.NewTimer(10 * time.Second)
+		log.Println("database not ready yet, please wait 15 seconds")
+		t := time.NewTimer(15 * time.Second)
 		<-t.C
 		conn, OpenErr = sqlx.Connect("pgx", config)
 		if OpenErr != nil {
