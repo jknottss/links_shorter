@@ -17,9 +17,8 @@ type Connection struct {
 
 var Con = Connection{}
 
-func StartServer() int {
+func StartServer() {
 	Con = OpenConnection()
-	return 1
 }
 
 func OpenConnection() (conf Connection) {

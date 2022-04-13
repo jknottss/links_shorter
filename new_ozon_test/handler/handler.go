@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"new_ozon_test/connection"
 	"new_ozon_test/storage"
+	"sync"
 )
 
 type App struct {
@@ -19,16 +20,18 @@ func initApp() (*App, error) {
 	if storage.TypeStorage == "PSQL" {
 		app.storType = &storage.Psql{
 			Conn: connection.Con.Conn,
+			Mu:   new(sync.Mutex),
 		}
 		return &app, nil
 	} else if storage.TypeStorage == "INMEMORY" {
 		app.storType = &storage.Memory{
 			LongLinks:  make(map[string]string),
 			ShortLinks: make(map[string]string),
+			Mu:         new(sync.Mutex),
 		}
 		return &app, nil
 	}
-	return &app, errors.New("wrong Storage")
+	return &app, errors.New("wrong storage")
 }
 func RequestHandler() {
 	app, err := initApp()
