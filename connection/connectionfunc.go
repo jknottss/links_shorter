@@ -4,6 +4,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"log"
 	"os"
+	"time"
 )
 
 var schema = `CREATE TABLE IF NOT EXISTS links (
@@ -28,7 +29,11 @@ func OpenConnection() (conf Connection) {
 	}
 	conn, OpenErr := sqlx.Connect("pgx", config)
 	if OpenErr != nil {
-		log.Fatal(OpenErr)
+		time.NewTimer(30 * time.Second)
+		conn, OpenErr = sqlx.Connect("pgx", config)
+		if OpenErr != nil {
+			log.Fatal(err)
+		}
 	}
 	_, _ = conn.Exec(schema)
 	conf.Conn = conn
