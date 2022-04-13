@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"new_ozon_test/connection"
 	"new_ozon_test/storage"
+	"os"
 	"sync"
 )
 
@@ -37,6 +38,9 @@ func RequestHandler() {
 	app, err := initApp()
 	if err != nil {
 		log.Println(err)
+	}
+	if os.Getenv("STORAGE") == "PSQL" {
+		defer connection.Con.Conn.Close()
 	}
 	r := mux.NewRouter()
 	r.HandleFunc("/link", app.PasteLink).Methods("POST")

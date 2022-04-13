@@ -4,10 +4,10 @@ build:
 		go mod download
 		go build -o ${BIN_NAME} .
 
-run psql:
+psql:
 		docker-compose --profile psql  up --build
 
-run inmemory:
+inmemory:
 		docker-compose --profile inmemory  up --build
 
 test:
