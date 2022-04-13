@@ -12,19 +12,13 @@ var schema = `CREATE TABLE IF NOT EXISTS links (
 	);`
 
 type Connection struct {
-	MemoryFlag int
-	Conn       *sqlx.DB
+	Conn *sqlx.DB
 }
 
-var Conf = Connection{}
+var Con = Connection{}
 
 func StartServer() int {
-	storage := os.Getenv("STORAGE")
-	if storage == "2" {
-		Conf = OpenConnection()
-	} else if storage == "1" {
-		Conf.MemoryFlag = 1
-	}
+	Con = OpenConnection()
 	return 1
 }
 

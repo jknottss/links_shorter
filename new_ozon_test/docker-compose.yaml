@@ -15,7 +15,7 @@ services:
     container_name: go
     environment:
       POSTGRES_URL: "postgres://user:mypassword@postgres:5432/db"
-      STORAGE:
+      STORAGE: "INMEMORY"
     build:
       context: .
     depends_on:

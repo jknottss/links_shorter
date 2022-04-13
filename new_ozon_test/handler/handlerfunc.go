@@ -2,68 +2,37 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
-	"new_ozon_test/connection"
-	"new_ozon_test/createlink"
-	"new_ozon_test/storage"
 )
 
 //todo поставить мьютексы
 //todo установить статусы ответа
 
-func PasteLink(w http.ResponseWriter, r *http.Request) {
+func (app *App) PasteLink(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var data storage.Data
-	_ = json.NewDecoder(r.Body).Decode(&data)
-	if data.FullLink == "" {
-		log.Print("empty URL")
-		return
+	err := json.NewDecoder(r.Body).Decode(&app.data)
+	if err != nil {
+		log.Println(err)
 	}
-	if connection.Conf.MemoryFlag == 1 {
-		link, err := data.SaveLongLink()
-		if err != nil {
-			log.Println(err)
-		}
-		data.ShortLink = link
-	} else {
-		err := connection.Conf.Conn.Get(&data, "SELECT * FROM links WHERE full_link=$1;", data.FullLink)
-		if err != nil {
-			link := createlink.CreateLink()
-			if err != nil {
-				log.Println(err)
-			}
-			data.ShortLink = link
-			_, err := connection.Conf.Conn.NamedQuery("INSERT INTO links VALUES (:full_link, :short_link)", data)
-			if err != nil {
-				log.Println(err)
-			}
-		}
+	app.data, err = app.storType.AddLink(app.data.FullLink)
+	if err != nil {
+		log.Println(err)
+		//установить статус ошибочный
 	}
-	_ = json.NewEncoder(w).Encode(data)
+	_ = json.NewEncoder(w).Encode(app.data)
 }
 
-func GetLink(w http.ResponseWriter, r *http.Request) {
+func (app *App) GetLink(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var data storage.Data
-	_ = json.NewDecoder(r.Body).Decode(&data)
-	if data.ShortLink == "" {
-		log.Println("empty URL")
-		return
+	err := json.NewDecoder(r.Body).Decode(&app.data)
+	if err != nil {
+		log.Println(err)
 	}
-	if connection.Conf.MemoryFlag == 1 {
-		link, err := data.GetLongLink()
-		if err != nil {
-			fmt.Println(err)
-		}
-		data.FullLink = link
-	} else {
-		err := connection.Conf.Conn.Get(&data, "SELECT * FROM links WHERE short_link=$1;", data.ShortLink)
-		if err != nil {
-			log.Println("url does not Exist")
-			return
-		}
+	app.data, err = app.storType.GetLink(app.data.ShortLink)
+	if err != nil {
+		log.Println(err)
+		//установить статус ошибочный
 	}
-	_ = json.NewEncoder(w).Encode(data)
+	_ = json.NewEncoder(w).Encode(app.data)
 }
