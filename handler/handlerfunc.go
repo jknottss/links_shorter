@@ -9,32 +9,32 @@ import (
 
 func (app *App) PasteLink(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	err := json.NewDecoder(r.Body).Decode(&app.data)
+	err := json.NewDecoder(r.Body).Decode(&app.Data)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(500)
 	}
-	app.data, err = app.storType.AddLink(app.data.FullLink)
+	app.Data, err = app.StorType.AddLink(app.Data.FullLink)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(405)
 	}
-	_ = json.NewEncoder(w).Encode(app.data)
-	app.data = storage.Data{}
+	_ = json.NewEncoder(w).Encode(app.Data)
+	app.Data = storage.Data{}
 }
 
 func (app *App) GetLink(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	err := json.NewDecoder(r.Body).Decode(&app.data)
+	err := json.NewDecoder(r.Body).Decode(&app.Data)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(500)
 	}
-	app.data, err = app.storType.GetLink(app.data.ShortLink)
+	app.Data, err = app.StorType.GetLink(app.Data.ShortLink)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(405)
 	}
-	_ = json.NewEncoder(w).Encode(app.data)
-	app.data = storage.Data{}
+	_ = json.NewEncoder(w).Encode(app.Data)
+	app.Data = storage.Data{}
 }

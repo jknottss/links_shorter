@@ -12,20 +12,20 @@ import (
 )
 
 type App struct {
-	data     storage.Data
-	storType storage.Storage
+	Data     storage.Data
+	StorType storage.Storage
 }
 
 func initApp() (*App, error) {
 	app := App{}
 	if storage.TypeStorage == "PSQL" {
-		app.storType = &storage.Psql{
+		app.StorType = &storage.Psql{
 			Conn: connection.Con.Conn,
 			Mu:   new(sync.Mutex),
 		}
 		return &app, nil
 	} else if storage.TypeStorage == "INMEMORY" {
-		app.storType = &storage.Memory{
+		app.StorType = &storage.Memory{
 			LongLinks:  make(map[string]string),
 			ShortLinks: make(map[string]string),
 			Mu:         new(sync.Mutex),

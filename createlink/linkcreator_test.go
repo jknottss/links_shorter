@@ -14,5 +14,4 @@ func TestCreateLink(t *testing.T) {
 		require.Regexp(t, allowChars, link, "contains allowed chars")
 		require.NotEqualf(t, link, CreateLink(), "should not eql")
 	}
-
 }
