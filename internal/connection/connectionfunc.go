@@ -8,7 +8,7 @@ import (
 )
 
 var schema = `CREATE TABLE IF NOT EXISTS links (
-		full_link	varchar(80),
+		full_link	varchar(300),
 		short_link	varchar(80)
 	);`
 
