@@ -37,7 +37,7 @@ func OpenConnection() (conf Connection) {
 			log.Fatal(err)
 		}
 	}
-	log.Println("reconnection successful")
+	log.Println("connection successful")
 	_, _ = conn.Exec(schema)
 	conf.Conn = conn
 	return
