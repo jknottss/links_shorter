@@ -5,8 +5,8 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"new_ozon_test/connection"
-	"new_ozon_test/storage"
+	"new_ozon_test/internal/connection"
+	"new_ozon_test/internal/storage"
 	"os"
 	"sync"
 )

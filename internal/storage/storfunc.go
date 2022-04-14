@@ -3,7 +3,7 @@ package storage
 import (
 	"errors"
 	"github.com/jmoiron/sqlx"
-	"new_ozon_test/createlink"
+	"new_ozon_test/internal/createlink"
 	"os"
 	"sync"
 )

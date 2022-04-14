@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	_ "github.com/jackc/pgx/v4/stdlib"
-	"new_ozon_test/connection"
-	"new_ozon_test/handler"
-	"new_ozon_test/storage"
+	"new_ozon_test/internal/connection"
+	"new_ozon_test/internal/handler"
+	"new_ozon_test/internal/storage"
 	"os"
 )
 

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"new_ozon_test/storage"
+	"new_ozon_test/internal/storage"
 )
 
 func (app *App) PasteLink(w http.ResponseWriter, r *http.Request) {

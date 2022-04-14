@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/stretchr/testify/require"
-	"new_ozon_test/storage"
+	"new_ozon_test/internal/storage"
 	"sync"
 	"testing"
 )
